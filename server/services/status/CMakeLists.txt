@@ -1,0 +1,9 @@
+add_badchat_server(StatusServer
+    SOURCES
+        StatusServer.cpp
+        StatusServiceImpl.cpp
+        ChatGrpcClient.cpp
+        MysqlDao.cpp
+        MysqlMgr.cpp
+        RedisMgr.cpp
+)

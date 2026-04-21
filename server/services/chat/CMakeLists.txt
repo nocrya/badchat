@@ -1,0 +1,15 @@
+add_badchat_server(ChatServer
+    SOURCES
+        ChatServer.cpp
+        CServer.cpp
+        CSession.cpp
+        ChatServiceImpl.cpp
+        ChatGrpcClient.cpp
+        LogicSystem.cpp
+        MsgNode.cpp
+        MysqlDao.cpp
+        MysqlMgr.cpp
+        RedisMgr.cpp
+        StatusGrpcClient.cpp
+        UserMgr.cpp
+)

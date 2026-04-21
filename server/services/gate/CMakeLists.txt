@@ -1,0 +1,12 @@
+add_badchat_server(GateServer
+    SOURCES
+        GateServer.cpp
+        CServer.cpp
+        HttpConnection.cpp
+        LogicSystem.cpp
+        MysqlDao.cpp
+        MysqlMgr.cpp
+        RedisMgr.cpp
+        StatusGrpcClient.cpp
+        VarifyGrpcClient.cpp
+)

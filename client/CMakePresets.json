@@ -1,0 +1,64 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 19,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "generator": "Visual Studio 16 2019",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_CXX_STANDARD": "17",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_PREFIX_PATH": "$env{QT_DIR}"
+            }
+        },
+        {
+            "name": "qt-debug",
+            "displayName": "Qt Debug (开发模式)",
+            "description": "开启调试信息，不开启优化，适合断点调试",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "qt-release",
+            "displayName": "Qt Release (发布模式)",
+            "description": "开启 O2/O3 优化，去除调试符号，体积更小速度更快",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "qt-debug-cn",
+            "displayName": "Qt Debug (国内加速)",
+            "description": "自动配置国内镜像源，解决 Qt 插件下载慢的问题",
+            "inherits": "qt-debug",
+            "cacheVariables": {
+                "QT_QMAKE_EXECUTABLE": "$env{QT_DIR}/bin/qmake.exe",
+                "CMAKE_TOOLCHAIN_FILE": null
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-debug",
+            "displayName": "编译 Debug",
+            "configurePreset": "qt-debug",
+            "jobs": 8
+        },
+        {
+            "name": "build-release",
+            "displayName": "编译 Release",
+            "configurePreset": "qt-release",
+            "jobs": 8
+        }
+    ]
+}
