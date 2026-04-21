@@ -1,5 +1,6 @@
 # ===== Secrets =====
 server/config/.env
+server/config/*.ini
 **/.env
 **/.env.local
 

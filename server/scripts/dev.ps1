@@ -67,13 +67,34 @@ function Check-PortListening {
 
 switch ($Action) {
     "Up" {
+        if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
+            Write-Host "ERROR: docker command not found. Install Docker Desktop first." -ForegroundColor Red
+            exit 1
+        }
+        docker info --format '{{.ServerVersion}}' 1>$null 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: Cannot connect to Docker daemon. Start Docker Desktop and wait for it to be ready." -ForegroundColor Red
+            exit 1
+        }
         Write-Host "[1/2] Starting MySQL, Redis and VarifyServer containers..." -ForegroundColor Cyan
         docker compose --env-file $envPath -f $composeFile up -d --build
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: docker compose up failed." -ForegroundColor Red
+            exit 1
+        }
         Write-Host "[2/2] Containers started. Run 'docker compose ps' to verify." -ForegroundColor Green
     }
 
     "Down" {
+        if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
+            Write-Host "ERROR: docker command not found." -ForegroundColor Red
+            exit 1
+        }
         docker compose --env-file $envPath -f $composeFile down
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: docker compose down failed." -ForegroundColor Red
+            exit 1
+        }
         Write-Host "Containers stopped." -ForegroundColor Green
     }
 

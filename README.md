@@ -41,19 +41,21 @@ badchat/
 
 ## 技术栈
 
-| 组件         | 说明 |
-|--------------|------|
-| C++17        | 服务端主语言 |
-| Boost.Asio   | 网络与线程池 |
-| gRPC / Protobuf | 服务间 RPC |
-| MySQL Connector/C++ | 数据库 |
-| hiredis      | Redis 客户端 |
-| jsoncpp      | JSON |
-| Qt6 / Qt5    | 客户端 GUI |
-| Conan 2      | C++ 依赖管理 |
-| CMake ≥ 3.20 | 构建 |
-| Node.js      | VarifyServer（邮箱验证码） |
-| Docker       | MySQL / Redis / VarifyServer 容器 |
+
+| 组件                  | 说明                              |
+| ------------------- | ------------------------------- |
+| C++17               | 服务端主语言                          |
+| Boost.Asio          | 网络与线程池                          |
+| gRPC / Protobuf     | 服务间 RPC                         |
+| MySQL Connector/C++ | 数据库                             |
+| hiredis             | Redis 客户端                       |
+| jsoncpp             | JSON                            |
+| Qt6 / Qt5           | 客户端 GUI                         |
+| Conan 2             | C++ 依赖管理                        |
+| CMake ≥ 3.20        | 构建                              |
+| Node.js             | VarifyServer（邮箱验证码）             |
+| Docker              | MySQL / Redis / VarifyServer 容器 |
+
 
 ## 快速开始
 
@@ -77,7 +79,7 @@ conan profile detect --force
 ```powershell
 cd server
 Copy-Item config\.env.example config\.env
-# 编辑 config\.env：填写 MYSQL_PASSWORD / REDIS_PASSWORD / EMAIL_USER / EMAIL_PASS
+# 编辑 config\.env：填写 MYSQL_PASSWORD / MYSQL_DB / REDIS_PASSWORD / EMAIL_USER / EMAIL_PASS
 powershell -ExecutionPolicy Bypass -File .\scripts\sync-config.ps1
 ```
 
@@ -130,6 +132,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\dev.ps1 -Action Check
 ```
 
 检查内容：
+
 - `.env` 必填项是否齐全
 - 容器运行状态 (mysql / redis / varifyserver)
 - 各端口监听
@@ -156,27 +159,31 @@ cmake --build build\qt-debug
 
 ## 脚本一览
 
-| 脚本 | 作用 |
-|------|------|
-| `scripts\dev.ps1 -Action Up\|Down\|Check` | docker 基础设施控制 + 启动自检 |
-| `scripts\sync-config.ps1` | 从 `.env` 生成所有 `config/*.ini` |
-| `scripts\conan-build-cmake.ps1` | Conan 装依赖 + CMake 配置 + 编译 |
-| `scripts\conan-clean.ps1` | 清理 `conan_output`（加 `-All` 清全局缓存）|
-| `scripts\run-cpp-server.ps1 -Server X` | 启动单个 C++ 服务 |
-| `scripts\run-all-cpp.ps1` | 按顺序启动全部 C++ 服务 |
+
+| 脚本                                      | 作用                                |
+| --------------------------------------- | --------------------------------- |
+| `scripts\dev.ps1 -Action Up|Down|Check` | docker 基础设施控制 + 启动自检              |
+| `scripts\sync-config.ps1`               | 从 `.env` 生成所有 `config/*.ini`      |
+| `scripts\conan-build-cmake.ps1`         | Conan 装依赖 + CMake 配置 + 编译         |
+| `scripts\conan-clean.ps1`               | 清理 `conan_output`（加 `-All` 清全局缓存） |
+| `scripts\run-cpp-server.ps1 -Server X`  | 启动单个 C++ 服务                       |
+| `scripts\run-all-cpp.ps1`               | 按顺序启动全部 C++ 服务                    |
+
 
 ## 端口约定
 
-| 服务 | 默认端口 | 说明 |
-|------|----------|------|
-| GateServer | 8080 | HTTP 入口 |
-| VarifyServer | 50051 | gRPC（邮箱验证码） |
-| StatusServer | 50052 | gRPC（分配 Chat 节点 / token）|
-| ChatServer1 | 8090 / 50055 | TCP / gRPC |
-| ChatServer2 | 8091 / 50056 | TCP / gRPC |
-| ResourceServer | 9090 / 51055 | TCP / gRPC |
-| MySQL | 3308 | 宿主机映射 |
-| Redis | 6379 | 宿主机映射 |
+
+| 服务             | 默认端口         | 说明                       |
+| -------------- | ------------ | ------------------------ |
+| GateServer     | 8080         | HTTP 入口                  |
+| VarifyServer   | 50051        | gRPC（邮箱验证码）              |
+| StatusServer   | 50052        | gRPC（分配 Chat 节点 / token） |
+| ChatServer1    | 8090 / 50055 | TCP / gRPC               |
+| ChatServer2    | 8091 / 50056 | TCP / gRPC               |
+| ResourceServer | 9090 / 51055 | TCP / gRPC               |
+| MySQL          | 3308         | 宿主机映射                    |
+| Redis          | 6379         | 宿主机映射                    |
+
 
 以上端口全部由 `config/.env` 控制，可随意修改。
 
